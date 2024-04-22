@@ -13,5 +13,5 @@
 * colorama
 
 # PORT SCANNING TAKES QUITE A WHILE, BE PATIENT. 
-If it is stuck, just manually put the ports in. Most common open ports for HTTP are p80 nad p443
+If it is stuck, just manually put the ports in. Most common open ports for HTTP are p80 and p443
 
