@@ -8,7 +8,7 @@
 # Note
 *This is simply a Proof of Concept, I am not responsible for any negative outcomes
 
-# Requires module
+# Requires modules
 * termcolor
 * colorama
 
