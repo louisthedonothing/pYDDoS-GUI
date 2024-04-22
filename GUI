@@ -1,0 +1,63 @@
+import PySimpleGUI as sg
+import nmap
+import threading
+import os
+import pyddos
+
+
+class DDOSApp:
+    def __init__(self):
+        self.layout = [
+            [sg.Text("Target:"), sg.InputText(key='-TARGET-')],
+            [sg.Button("Scan Ports", key='-SCAN-'), sg.Button("Start Attack", key='-ATTACK-')],
+            [sg.Text("Or specify ports:"), sg.InputText(key='-PORTS-')],
+            [sg.Output(size=(60, 10))]
+        ]
+
+        self.window = sg.Window("DDOS Tool", self.layout)
+
+    def run(self):
+        while True:
+            event, values = self.window.read()
+            if event == sg.WINDOW_CLOSED:
+                break
+            elif event == '-SCAN-':
+                threading.Thread(target=self.scan_ports, args=(values['-TARGET-'],)).start()
+            elif event == '-ATTACK-':
+                threading.Thread(target=self.start_attack, args=(values['-TARGET-'], values['-PORTS-'])).start()
+
+    def scan_ports(self, target):
+        try:
+            nm = nmap.PortScanner()
+            print("Scanning ports...")
+            nm.scan(hosts=target, arguments='-p 1-65535 -T4 -v', timeout=600)  # Timeout set to 600 seconds (10 minutes)
+            print("Scan complete.")
+            for host in nm.all_hosts():
+                for proto in nm[host].all_protocols():
+                    ports = nm[host][proto].keys()
+                    for port in ports:
+                        if nm[host][proto][port]['state'] == 'open':
+                            print(f"Found open port: {port}")
+            print("Open ports:", [port for port in nm.all_hosts()])
+        except Exception as e:
+            print("Error during scanning:", e)
+
+    def start_attack(self, target, ports):
+        try:
+            if ports:
+                ports = ports.split(',')
+                # Call your attack script here with the provided ports
+                command = f"python your_attack_script.py -d {target} -p {' '.join(ports)} -Pyslow"  # Example command
+            else:
+                # Call your attack script here with scanned ports
+                command = f"python your_attack_script.py -d {target} -Pyslow"  # Example command
+            os.system(command)
+        except Exception as e:
+            print("Error during attack:", e)
+
+def main():
+    app = DDOSApp()
+    app.run()
+
+if __name__ == "__main__":
+    main()
