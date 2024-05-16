@@ -1,5 +1,4 @@
 
-- NOT CURRENTLY WORKING..... BEING COMPILED INTO EXE
 
 # pyddos.py
 
